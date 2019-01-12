@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
 
         credit_view.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/carlos-bedoy-34248187/"))
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/cbedoy"))
             startActivity(browserIntent)
         }
     }
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
     private fun showCredit() {
         val builder = AlertDialog.Builder(this)
 
-        builder.setMessage(R.string.made_with_code_amp_music)
+        builder.setMessage(R.string.description)
 
         builder.setCancelable(false)
         builder.setPositiveButton("Oka") { dialog, which ->
