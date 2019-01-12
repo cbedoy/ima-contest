@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     var presenter: MainPresenter? = null
     var adapter: VideoAdapter = VideoAdapter()
+    var rawItems = ArrayList<VideoItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +45,8 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+        rawItems.clear()
+
         presenter?.loadVideos()
     }
 
@@ -54,15 +57,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onLoadedVideo(videoItem: VideoItem) {
-        adapter.dataModel.add(videoItem)
+        rawItems.add(videoItem)
 
-        runOnUiThread {
-            adapter.dataModel.sortedWith(compareByDescending<VideoItem> { it.like }
-                .thenByDescending { it.like })
+        if (rawItems.size >= 47){
+            runOnUiThread {
+                rawItems.sortBy { it.like }
+
+                rawItems.asReversed().forEach {
+                    adapter.dataModel.add(it)
+                }
 
 
-            adapter.notifyDataSetChanged()
+                adapter.notifyDataSetChanged()
+            }
         }
-
     }
 }
