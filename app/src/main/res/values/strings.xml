@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">IMA 2019</string>
+    <string name="app_name">IMA CONTEST 2019</string>
+    <string name="sort_by">Sort by</string>
+    <string name="views">Views</string>
+    <string name="likes">Likes</string>
+    <string name="dislikes">Dislikes</string>
+    <string name="made_with_code_amp_music"><![CDATA[Made with code & music ♥]]></string>
+    <string name="about">About</string>
 </resources>

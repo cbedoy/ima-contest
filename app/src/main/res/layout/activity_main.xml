@@ -19,7 +19,8 @@
               android:textColor="#a0a0a0"
               android:gravity="center"
               android:textSize="12sp"
-              android:text="Made with code &amp; music ♥"
+              android:id="@+id/credit_view"
+              android:text="@string/made_with_code_amp_music"
               android:layout_height="32dp"
               app:layout_constraintBottom_toBottomOf="parent"
               app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>

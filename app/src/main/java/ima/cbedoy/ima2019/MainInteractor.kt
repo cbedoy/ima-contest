@@ -97,6 +97,7 @@ class MainInteractor{
                     videoItem.title = snippet["title"] as String
                     videoItem.description = snippet["description"] as String
                     videoItem.thumbnail = getThumbnailFromSnippet(snippet["thumbnails"] as Map<String, Any>?)
+                    videoItem.url = "https://www.youtube.com/watch?v=$id"
 
                     videoItems.add(videoItem)
 
