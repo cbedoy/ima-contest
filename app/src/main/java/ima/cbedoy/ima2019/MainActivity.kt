@@ -88,8 +88,8 @@ class MainActivity : AppCompatActivity() {
 
         builder.setMessage(R.string.description)
 
-        builder.setCancelable(false)
-        builder.setPositiveButton("Oka") { dialog, which ->
+        builder.setCancelable(true)
+        builder.setPositiveButton("Let me see") { dialog, which ->
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/cbedoy"))
             startActivity(browserIntent)
         }

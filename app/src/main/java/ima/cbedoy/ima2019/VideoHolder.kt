@@ -15,9 +15,9 @@ class VideoHolder(override val containerView: View) : RecyclerView.ViewHolder(co
         title.text = item.title
         description.text = item.description
 
-        views.text = "Vistas: ${item.views}"
-        likes.text = "Likes: ${item.like}"
-        dislikes.text = "Dislikes: ${item.dislike}"
+        views.text = "▶️: ${formatViews(item.views)}"
+        likes.text = "\uD83D\uDC4D: ${item.like}"
+        dislikes.text = "\uD83D\uDC4E: ${item.dislike}"
 
         Glide.with(thumbnail).load(item.thumbnail).into(thumbnail)
 
@@ -25,5 +25,11 @@ class VideoHolder(override val containerView: View) : RecyclerView.ViewHolder(co
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(item.url))
             containerView.context.startActivity(browserIntent)
         }
+
+        currentPosition.text = (adapterPosition + 1).toString()
+    }
+
+    private fun formatViews(views: Int) : String {
+        return if (views >= 1000) "%.1f".format((views.toFloat() / 1000)) + "K" else views.toString()
     }
 }
