@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     var presenter: MainPresenter? = null
     var adapter: VideoAdapter = VideoAdapter()
-    var rawItems = ArrayList<VideoItem>()
+    var dataModel = ArrayList<VideoItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,8 +60,6 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        rawItems.clear()
-
         Handler().post {
             presenter?.loadVideos()
         }
@@ -96,14 +94,8 @@ class MainActivity : AppCompatActivity() {
         builder.create().show()
     }
 
-    fun onLoadedVideo(videoItem: VideoItem) {
-        rawItems.add(videoItem)
-
-        sortByCriteria("likes")
-    }
-
     private fun sortByCriteria(criteria: String){
-        if (rawItems.size >= 47){
+        if (dataModel.size >= 47){
             runOnUiThread {
                 adapter.dataModel.clear()
 
@@ -111,18 +103,26 @@ class MainActivity : AppCompatActivity() {
 
 
                 when (criteria) {
-                    "likes" -> rawItems.sortBy { it.like }
-                    "views" -> rawItems.sortBy { it.views }
-                    else -> rawItems.sortBy { it.dislike }
+                    "likes" -> dataModel.sortBy { it.like }
+                    "views" -> dataModel.sortBy { it.views }
+                    else -> dataModel.sortBy { it.dislike }
                 }
 
-                rawItems.asReversed().forEach {
+                dataModel.asReversed().forEach {
                     adapter.dataModel.add(it)
                 }
 
 
                 adapter.notifyDataSetChanged()
             }
+        }
+    }
+
+    fun onLoadedVideos(videos: ArrayList<VideoItem>) {
+        dataModel = videos
+
+        runOnUiThread {
+            sortByCriteria("likes")
         }
     }
 }

@@ -15,9 +15,9 @@ class VideoHolder(override val containerView: View) : RecyclerView.ViewHolder(co
         title.text = item.title
         description.text = item.description
 
-        views.text = "▶️: ${formatViews(item.views)}"
-        likes.text = "\uD83D\uDC4D: ${item.like}"
-        dislikes.text = "\uD83D\uDC4E: ${item.dislike}"
+        views.text = "Views️: ${formatViews(item.views)}"
+        likes.text = "Likes: ${item.like}"
+        dislikes.text = "Dislkes: ${item.dislike}"
 
         Glide.with(thumbnail).load(item.thumbnail).into(thumbnail)
 

@@ -5,8 +5,8 @@ class MainPresenter{
         interactor?.requestVideos()
     }
 
-    fun loadedVideo(videoItem: VideoItem) {
-        viewController?.onLoadedVideo(videoItem)
+    fun loadedVideos(videos: ArrayList<VideoItem>) {
+        viewController?.onLoadedVideos(videos)
     }
 
     var interactor: MainInteractor? = null

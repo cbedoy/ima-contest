@@ -14,7 +14,7 @@ interface Service{
                    @Query("maxResults") maxResults: Int): Call<Map<String, Any>>
 
     @GET("videos")
-    fun getVideo(@Query("part") part: String,
+    fun getStatistics(@Query("part") part: String,
                  @Query("id") id: String,
                  @Query("key") key: String): Call<Map<String, Any>>
 }

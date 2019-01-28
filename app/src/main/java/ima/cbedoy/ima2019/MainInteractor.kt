@@ -1,28 +1,21 @@
 package ima.cbedoy.ima2019
 
-import android.annotation.SuppressLint
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
 class MainInteractor{
-
-    private val videos : HashMap<String, Any> = HashMap()
-    private val videoItems =  ArrayList<VideoItem>()
+    private val KEY = "AIzaSyC5NDNAsd8yVmzmFrERfsJnIQYfPW0eZRg"
 
     fun requestVideos() {
         val call = service?.getChannel(
-            "AIzaSyC5NDNAsd8yVmzmFrERfsJnIQYfPW0eZRg",
+            KEY,
             "UCV3sr3fVEX4CDZxxl-W4Q8Q",
             "snippet,id",
             "date",
             50
         )
-
-        videos.clear()
-        videoItems.clear()
-
         call?.enqueue(object : Callback<Map<String, Any>>{
             override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
 
@@ -38,73 +31,78 @@ class MainInteractor{
 
     private fun prepareItems(body: Map<String, Any>?) {
         val items = body?.get("items") as ArrayList<Map<String, Any>>
-        val calls = ArrayList<Call<Map<String, Any>>>()
+        val identifiers = ArrayList<String>()
         items.forEach { item ->
             val id = item["id"] as Map<String, Any>
             if (id.containsKey("videoId")){
 
-                val identifier = id["videoId"] as String
+                val identifier = id["videoId"] as String?
 
-                val call =
-                    service?.getVideo("statistics", identifier, "AIzaSyC5NDNAsd8yVmzmFrERfsJnIQYfPW0eZRg")
-
-                if (call != null)
-                    calls.add(call)
-
-                videos[identifier] = item
+                if (identifier != null)
+                    identifiers.add(identifier)
             }
         }
 
-        getVideoCount(calls)
+        getStatistics(identifiers)
     }
 
-    @SuppressLint("CheckResult")
-    private fun getVideoCount(requests: ArrayList<Call<Map<String, Any>>>) {
-        requests.forEach { call ->
-            call.enqueue(object : Callback<Map<String, Any>>{
-                override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
+    private fun getStatistics(identifiers: ArrayList<String>) {
+        val joinToString = identifiers.joinToString { it }
 
-                }
+        val call = service?.getStatistics("statistics, snippet", joinToString, KEY)
+        call?.enqueue(object : Callback<Map<String, Any>>{
+            override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
 
-                override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
-                    prepareEntry(response.body())
-                }
-            })
-        }
+            }
+
+            override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
+                prepareStatistics(response)
+            }
+
+        })
     }
 
-    private fun prepareEntry(body: Map<String, Any>?) {
-        if (body != null){
-            val items :List<Map<String, Any>> = body["items"] as List<Map<String, Any>>
-            if (items.isNotEmpty()){
-                val data = items[0]
-                val id = data["id"] as String
-                val statistics : Map<String, Any> = data["statistics"] as Map<String, Any>
+    private fun prepareStatistics(response: Response<Map<String, Any>>) {
+        val videos = ArrayList<VideoItem>()
+        if (response.isSuccessful){
+            val body = response.body()
+            if (body != null) {
+                if (body.containsKey("items")){
+                    val items = body["items"] as ArrayList<Map<String, Any>>
+                    items.forEach {
+                        val videoItem = prepareEntry(it)
 
-                if (videos.containsKey(id)) {
-
-                    val video = videos[id] as Map<String, Any>
-
-                    val snippet = video["snippet"] as Map<String, Any>
-
-                    val videoItem = VideoItem()
-
-                    videoItem.id = id
-                    videoItem.views = statistics["viewCount"].toString().toInt()
-                    videoItem.like = statistics["likeCount"].toString().toInt()
-                    videoItem.dislike = statistics["dislikeCount"].toString().toInt()
-                    videoItem.favorite = statistics["favoriteCount"].toString().toInt()
-                    videoItem.title = snippet["title"] as String
-                    videoItem.description = snippet["description"] as String
-                    videoItem.thumbnail = getThumbnailFromSnippet(snippet["thumbnails"] as Map<String, Any>?)
-                    videoItem.url = "https://www.youtube.com/watch?v=$id"
-
-                    videoItems.add(videoItem)
-
-                    presenter?.loadedVideo(videoItem)
+                        if (videoItem != null)
+                            videos.add(videoItem)
+                    }
                 }
             }
         }
+        presenter?.loadedVideos(videos)
+    }
+
+
+    private fun prepareEntry(data: Map<String, Any>?) : VideoItem? {
+        if (data != null){
+            val id = data["id"] as String
+            val statistics : Map<String, Any> = data["statistics"] as Map<String, Any>
+            val snippet = data["snippet"] as Map<String, Any>
+
+            val videoItem = VideoItem()
+
+            videoItem.id = id
+            videoItem.views = statistics["viewCount"].toString().toInt()
+            videoItem.like = statistics["likeCount"].toString().toInt()
+            videoItem.dislike = statistics["dislikeCount"].toString().toInt()
+            videoItem.favorite = statistics["favoriteCount"].toString().toInt()
+            videoItem.url = "https://www.youtube.com/watch?v=$id"
+            videoItem.title = snippet["title"] as String?
+            videoItem.description = snippet["description"] as String?
+            videoItem.thumbnail = getThumbnailFromSnippet(snippet["thumbnails"] as Map<String, Any>?)
+
+            return videoItem
+        }
+        return null
     }
 
     private fun getThumbnailFromSnippet(thumbnails: Map<String, Any>?): String {

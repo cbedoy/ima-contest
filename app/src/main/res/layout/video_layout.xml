@@ -6,11 +6,11 @@
                                              android:layout_height="wrap_content">
 
 
-    <ImageView android:layout_width="96dp"
+    <ImageView android:layout_width="72dp"
                android:scaleType="center"
                android:background="#F0F0F0"
                android:adjustViewBounds="true"
-               android:layout_height="96dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
+               android:layout_height="72dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
                android:id="@+id/thumbnail" android:layout_marginBottom="8dp"
                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0"/>
@@ -18,19 +18,20 @@
 
     <TextView
             android:textColor="#99FFFFFF"
-            android:textSize="64sp"
+            android:textSize="48sp"
             android:text="99"
             android:id="@+id/currentPosition"
             android:gravity="center"
             android:background="#337C4DFF"
-              android:layout_width="96dp" android:layout_height="96dp" app:layout_constraintTop_toTopOf="parent"
-              android:layout_marginTop="8dp" app:layout_constraintStart_toStartOf="parent"
-              android:layout_marginStart="16dp"/>
+            android:layout_width="72dp" android:layout_height="72dp" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"/>
 
     <TextView
             android:textColor="#424242"
             android:text="Title"
-            android:textSize="14sp"
+            android:textSize="12sp"
+            android:textStyle="bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/title" app:layout_constraintStart_toEndOf="@+id/thumbnail"
@@ -39,8 +40,10 @@
     <TextView
             android:textColor="#848484"
             android:layout_width="0dp"
-            android:maxLines="4"
+            android:maxLines="3"
             android:textSize="10sp"
+            android:textStyle="normal"
+            android:text="But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pai"
             android:layout_height="wrap_content"
             android:id="@+id/description"
             app:layout_constraintTop_toBottomOf="@+id/title"
@@ -53,12 +56,13 @@
             android:layout_marginStart="8dp" app:layout_constraintStart_toEndOf="@+id/thumbnail"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
             app:layout_constraintHorizontal_bias="0.0" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="80dp">
+            android:layout_marginTop="64dp">
 
         <TextView
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:gravity="center|left"
                 android:text="Vistas: 100"
+                android:textStyle="italic"
                 android:textColor="#848484"
                 android:layout_weight="1"
                 android:id="@+id/views"
@@ -66,9 +70,10 @@
                 android:layout_height="match_parent"/>
 
         <TextView
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:gravity="center|left"
                 android:text="Likes: 100"
+                android:textStyle="italic"
                 android:textColor="#848484"
                 android:layout_weight="1"
                 android:id="@+id/likes"
@@ -76,10 +81,11 @@
                 android:layout_height="match_parent"/>
 
         <TextView
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:gravity="center|left"
                 android:text="Dislike: 100"
                 android:textColor="#848484"
+                android:textStyle="italic"
                 android:layout_weight="1"
                 android:id="@+id/dislikes"
                 android:layout_width="match_parent"
@@ -89,7 +95,7 @@
     <View
             android:background="#f0f0f0"
             android:layout_width="match_parent"
-            android:layout_height="2dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="110dp"
+            android:layout_height="2dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="86dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"/>
 
 
